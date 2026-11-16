@@ -1,3 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PakApps Hub</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
+header{background:#123b70;color:white;text-align:center;padding:25px 12px}
+header h1{margin:0;font-size:30px}
+header p{margin:9px 0 0}
+.container{max-width:950px;margin:auto;padding:18px}
+input{width:100%;padding:14px;border:1px solid #ccd5e2;border-radius:10px;font-size:16px}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}
+button{padding:10px 15px;border:0;border-radius:8px;background:#1765b3;color:white;cursor:pointer}
+button.active{background:#123b70}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:white;padding:17px;border-radius:13px;box-shadow:0 2px 9px #00000010}
+.card h3{margin:5px 0}
+.card p{color:#596579;min-height:38px}
+.card a{display:inline-block;text-decoration:none;background:#16834a;color:white;padding:10px 13px;border-radius:8px}
+footer{text-align:center;padding:25px;color:#657086}
+</style>
+</head>
+<body>
+<header>
+<h1>PakApps Hub</h1>
+<p>Your Apps, Your Choice!</p>
+<p>پاکستان کی ایپس اور گیمز کی دنیا</p>
+</header>
+<main class="container">
+<h2>Explore Apps | ایپس تلاش کریں</h2>
+<input id="search" type="search" placeholder="Search apps... ایپ تلاش کریں">
+<div class="categories">
+<button class="active" data-cat="all">All</button>
+<button data-cat="Social">Social</button>
+<button data-cat="Video">Video</button>
+<button data-cat="Tools">Tools</button>
+<button data-cat="Games">Games</button>
+</div>
+<div class="grid" id="apps"></div>
+</main>
+<footer>
+<p>Welcome to PakApps Hub</p>
+<p>Made for Pakistan 🇵🇰</p>
+</footer>
+<script>
+const appList=[
+{name:"WhatsApp",cat:"Social",desc:"Chat and make calls with friends.",query:"WhatsApp Messenger"},
+{name:"Facebook",cat:"Social",desc:"Connect with friends and family.",query:"Facebook"},
+{name:"Instagram",cat:"Social",desc:"Share photos and videos.",query:"Instagram"},
+{name:"YouTube",cat:"Video",desc:"Watch videos and entertainment.",query:"YouTube"},
+{name:"Google Maps",cat:"Tools",desc:"Find places and get directions.",query:"Google Maps"},
+{name:"Google Chrome",cat:"Tools",desc:"Browse the internet quickly.",query:"Google Chrome"},
+{name:"PUBG MOBILE",cat:"Games",desc:"Popular mobile battle game.",query:"PUBG MOBILE"}
+];
+let category="all";
+const apps=document.getElementById("apps");
+function render(){
+const q=document.getElementById("search").value.toLowerCase();
+const filtered=appList.filter(a=>(category==="all"||a.cat===category)&&(a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)));
+apps.innerHTML=filtered.map(a=>`
+<div class="card">
+<h3>${a.name}</h3>
+<small>${a.cat}</small>
+<p>${a.desc}</p>
+<a target="_blank" rel="noopener" href="https://play.google.com/store/search?q=${encodeURIComponent(a.query)}&c=apps">View on Play Store</a>
+</div>`).join("")||"<p>No apps found.</p>";
+}
+document.getElementById("search").addEventListener("input",render);
+document.querySelectorAll("[data-cat]").forEach(b=>{
+b.addEventListener("click",()=>{
+category=b.dataset.cat;
+document.querySelectorAll("[data-cat]").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+render();
+});
+});
+render();
+</script>
+</body>
+</html>
+
 PakApps Hub
 
 Welcome to PakApps Hub!
