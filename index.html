@@ -5,34 +5,106 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PakApps Hub</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
-header{background:#123b70;color:white;text-align:center;padding:25px 12px}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f3f6fb;
+ color:#172033;
+}
+header{
+ background:#123b70;
+ color:white;
+ text-align:center;
+ padding:28px 12px;
+}
 header h1{margin:0;font-size:30px}
-header p{margin:9px 0 0}
-.container{max-width:950px;margin:auto;padding:18px}
-input{width:100%;padding:14px;border:1px solid #ccd5e2;border-radius:10px;font-size:16px}
-.categories{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}
-button{padding:10px 15px;border:0;border-radius:8px;background:#1765b3;color:white;cursor:pointer}
+header p{margin:9px 0}
+.container{
+ max-width:950px;
+ margin:auto;
+ padding:18px;
+}
+input{
+ width:100%;
+ padding:14px;
+ border:1px solid #ccd5e2;
+ border-radius:10px;
+ font-size:16px;
+ margin:12px 0;
+}
+.controls,.categories{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin:14px 0;
+}
+button{
+ padding:11px 15px;
+ border:0;
+ border-radius:8px;
+ background:#1765b3;
+ color:white;
+ cursor:pointer;
+ font-size:14px;
+}
 button.active{background:#123b70}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.card{background:white;padding:17px;border-radius:13px;box-shadow:0 2px 9px #00000010}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:14px;
+}
+.card{
+ background:white;
+ padding:17px;
+ border-radius:13px;
+ box-shadow:0 2px 9px #00000010;
+}
 .card h3{margin:5px 0}
 .card p{color:#596579;min-height:38px}
-.card a{display:inline-block;text-decoration:none;background:#16834a;color:white;padding:10px 13px;border-radius:8px}
-footer{text-align:center;padding:25px;color:#657086}
+.card a{
+ display:inline-block;
+ text-decoration:none;
+ background:#16834a;
+ color:white;
+ padding:10px 13px;
+ border-radius:8px;
+}
+.favorite{
+ background:#e9edf5;
+ color:#123b70;
+ margin-top:10px;
+}
+footer{
+ text-align:center;
+ padding:25px;
+ color:#657086;
+}
 </style>
 </head>
+
 <body>
+
 <header>
 <h1>PakApps Hub</h1>
 <p>Your Apps, Your Choice!</p>
 <p>پاکستان کی ایپس اور گیمز کی دنیا</p>
 </header>
+
 <main class="container">
-<h2>Explore Apps | ایپس تلاش کریں</h2>
-<input id="search" type="search" placeholder="Search apps... ایپ تلاش کریں">
+
+<h2 id="heading">Explore Apps | ایپس تلاش کریں</h2>
+
+<input id="search" type="search"
+placeholder="Search apps... ایپ تلاش کریں">
+
+<div class="controls">
+<button id="languageBtn">اردو / English</button>
+<button id="favoritesBtn">My Favorites ❤️</button>
+</div>
+
 <div class="categories">
 <button class="active" data-cat="all">All</button>
 <button data-cat="Social">Social</button>
@@ -40,87 +112,236 @@ footer{text-align:center;padding:25px;color:#657086}
 <button data-cat="Tools">Tools</button>
 <button data-cat="Games">Games</button>
 </div>
+
 <div class="grid" id="apps"></div>
+
 </main>
+
 <footer>
 <p>Welcome to PakApps Hub</p>
 <p>Made for Pakistan 🇵🇰</p>
+<p>Your Apps, Your Choice!</p>
 </footer>
+
 <script>
+
 const appList=[
-{name:"WhatsApp",cat:"Social",desc:"Chat and make calls with friends.",query:"WhatsApp Messenger"},
-{name:"Facebook",cat:"Social",desc:"Connect with friends and family.",query:"Facebook"},
-{name:"Instagram",cat:"Social",desc:"Share photos and videos.",query:"Instagram"},
-{name:"YouTube",cat:"Video",desc:"Watch videos and entertainment.",query:"YouTube"},
-{name:"Google Maps",cat:"Tools",desc:"Find places and get directions.",query:"Google Maps"},
-{name:"Google Chrome",cat:"Tools",desc:"Browse the internet quickly.",query:"Google Chrome"},
-{name:"PUBG MOBILE",cat:"Games",desc:"Popular mobile battle game.",query:"PUBG MOBILE"}
-];
-let category="all";
-const apps=document.getElementById("apps");
-function render(){
-const q=document.getElementById("search").value.toLowerCase();
-const filtered=appList.filter(a=>(category==="all"||a.cat===category)&&(a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)));
-apps.innerHTML=filtered.map(a=>`
-<div class="card">
-<h3>${a.name}</h3>
-<small>${a.cat}</small>
-<p>${a.desc}</p>
-<a target="_blank" rel="noopener" href="https://play.google.com/store/search?q=${encodeURIComponent(a.query)}&c=apps">View on Play Store</a>
-</div>`).join("")||"<p>No apps found.</p>";
+{
+name:"WhatsApp",
+cat:"Social",
+desc:"Chat and make calls with friends.",
+urdu:"دوستوں اور خاندان سے رابطہ کریں۔",
+query:"WhatsApp Messenger"
+},
+{
+name:"Facebook",
+cat:"Social",
+desc:"Connect with friends and family.",
+urdu:"دوستوں اور خاندان سے جڑے رہیں۔",
+query:"Facebook"
+},
+{
+name:"Instagram",
+cat:"Social",
+desc:"Share photos and videos.",
+urdu:"تصاویر اور ویڈیوز شیئر کریں۔",
+query:"Instagram"
+},
+{
+name:"YouTube",
+cat:"Video",
+desc:"Watch videos and entertainment.",
+urdu:"ویڈیوز اور تفریح دیکھیں۔",
+query:"YouTube"
+},
+{
+name:"TikTok",
+cat:"Video",
+desc:"Watch and create short videos.",
+urdu:"مختصر ویڈیوز دیکھیں اور بنائیں۔",
+query:"TikTok"
+},
+{
+name:"Google Maps",
+cat:"Tools",
+desc:"Find places and get directions.",
+urdu:"راستے اور مقامات تلاش کریں۔",
+query:"Google Maps"
+},
+{
+name:"Google Chrome",
+cat:"Tools",
+desc:"Browse the internet quickly.",
+urdu:"انٹرنیٹ پر آسانی سے تلاش کریں۔",
+query:"Google Chrome"
+},
+{
+name:"Gmail",
+cat:"Tools",
+desc:"Send and receive emails.",
+urdu:"ای میل بھیجیں اور وصول کریں۔",
+query:"Gmail"
+},
+{
+name:"PUBG MOBILE",
+cat:"Games",
+desc:"Popular mobile battle game.",
+urdu:"مشہور موبائل جنگی کھیل۔",
+query:"PUBG MOBILE"
+},
+{
+name:"Subway Surfers",
+cat:"Games",
+desc:"Enjoy an exciting running game.",
+urdu:"مزے دار دوڑنے والا کھیل۔",
+query:"Subway Surfers"
 }
-document.getElementById("search").addEventListener("input",render);
+];
+
+let category="all";
+let urdu=false;
+let showFavorites=false;
+
+let favorites=[];
+try{
+ favorites=JSON.parse(
+ localStorage.getItem("pakapps-favorites")||"[]"
+ );
+}catch(e){favorites=[];}
+
+const apps=document.getElementById("apps");
+const search=document.getElementById("search");
+
+function render(){
+
+ const q=search.value.toLowerCase();
+
+ const filtered=appList.filter(a=>{
+
+ const matchCategory=
+ category==="all"||a.cat===category;
+
+ const matchSearch=
+ a.name.toLowerCase().includes(q)||
+ a.desc.toLowerCase().includes(q)||
+ a.urdu.includes(q);
+
+ const matchFavorite=
+ !showFavorites||favorites.includes(a.name);
+
+ return matchCategory&&matchSearch&&matchFavorite;
+ });
+
+ apps.innerHTML=filtered.map(a=>`
+
+ <div class="card">
+
+ <h3>${a.name}</h3>
+
+ <small>${a.cat}</small>
+
+ <p>${urdu?a.urdu:a.desc}</p>
+
+ <a target="_blank"
+ rel="noopener"
+ href="https://play.google.com/store/search?q=${encodeURIComponent(a.query)}&c=apps">
+ ${urdu?"پلے اسٹور پر دیکھیں":"View on Play Store"}
+ </a>
+
+ <br>
+
+ <button class="favorite"
+ data-fav="${a.name}">
+ ${favorites.includes(a.name)?"❤️":"🤍"}
+ ${urdu?"پسندیدہ":"Favorite"}
+ </button>
+
+ </div>
+
+ `).join("")||
+
+ `<p>${urdu?"کوئی ایپ نہیں ملی۔":"No apps found."}</p>`;
+
+ document.querySelectorAll("[data-fav]").forEach(b=>{
+ b.addEventListener("click",()=>{
+ toggleFavorite(b.dataset.fav);
+ });
+ });
+
+}
+
+function toggleFavorite(name){
+
+ if(favorites.includes(name)){
+ favorites=favorites.filter(x=>x!==name);
+ }else{
+ favorites.push(name);
+ }
+
+ try{
+ localStorage.setItem(
+ "pakapps-favorites",
+ JSON.stringify(favorites)
+ );
+ }catch(e){}
+
+ render();
+}
+
+search.addEventListener("input",render);
+
 document.querySelectorAll("[data-cat]").forEach(b=>{
-b.addEventListener("click",()=>{
-category=b.dataset.cat;
-document.querySelectorAll("[data-cat]").forEach(x=>x.classList.remove("active"));
-b.classList.add("active");
-render();
+
+ b.addEventListener("click",()=>{
+
+ category=b.dataset.cat;
+ showFavorites=false;
+
+ document.querySelectorAll("[data-cat]")
+ .forEach(x=>x.classList.remove("active"));
+
+ b.classList.add("active");
+
+ render();
+
+ });
+
 });
+
+document.getElementById("languageBtn")
+.addEventListener("click",()=>{
+
+ urdu=!urdu;
+
+ document.getElementById("heading").textContent=
+ urdu?"ایپس تلاش کریں":"Explore Apps";
+
+ search.placeholder=
+ urdu?"ایپ تلاش کریں":"Search apps...";
+
+ render();
+
 });
+
+document.getElementById("favoritesBtn")
+.addEventListener("click",()=>{
+
+ showFavorites=!showFavorites;
+ category="all";
+
+ document.querySelectorAll("[data-cat]")
+ .forEach(x=>x.classList.remove("active"));
+
+ document.querySelector('[data-cat="all"]')
+ .classList.add("active");
+
+ render();
+
+});
+
 render();
+
 </script>
+
 </body>
 </html>
-
-PakApps Hub
-
-Welcome to PakApps Hub!
-
-PakApps Hub is a platform where users can discover popular Android apps and games.
-
-Features
-
-- Popular Android Apps
-- Popular Games
-- Urdu and English Language Support
-- Search Apps
-- Favorite Apps
-- Official Google Play Store Links
-
-About
-
-Our goal is to make finding Android apps and games easy for everyone in Pakistan.
-PakApps Hub
-
-Welcome to PakApps Hub!
-
-PakApps Hub is a platform for discovering popular Android apps and games in Pakistan.
-
-Features
-
-- Android Apps
-- Popular Games
-- Urdu and English Languages
-- App Search
-- Favorite Apps
-- Official Google Play Store Links
-- Easy to Use
-
-About Us
-
-Our mission is to make discovering and finding Android apps and games easy for everyone in Pakistan.
-
-Project
-
-PakApps Hub – Your Apps, Your Choice!
